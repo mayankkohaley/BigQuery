@@ -39,17 +39,15 @@ class BigQuery
     end
   end
 
-  def load(opts)
+  def insert(opts)
     api({
       :api_method => @bq.jobs.insert,
       :body_object => {
-        "configuration" => {
-          "load" => opts
-        }
+        "configuration" => opts
       }
     })
   end
-
+  
   def job(id, opts = {})
     opts['jobId'] = id
 
