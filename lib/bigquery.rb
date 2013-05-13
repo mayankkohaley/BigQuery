@@ -115,12 +115,17 @@ class BigQuery
   private
 
   def api(opts)
+    conn = Faraday.default_connection
+    conn.options[:timeout] = 50000
+    
     if opts[:parameters]
       opts[:parameters] = opts[:parameters].merge({"projectId" => @project_id})
     else
       opts[:parameters] = {"projectId" => @project_id}
     end
-
+    
+    opts[:connection] = conn
+    
     resp = @client.execute(opts)
     JSON.parse(resp.body)
   end
